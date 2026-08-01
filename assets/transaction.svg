@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="420" viewBox="0 0 940 420" font-family="-apple-system,'PingFang SC','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="arr4" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="470" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#0f172a">Transaction 事务机制：Step → Transform → Transaction → 新状态</text>
+
+  <!-- state A -->
+  <rect x="30" y="66" width="200" height="76" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="130" y="92" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">EditorState（旧）</text>
+  <text x="130" y="112" text-anchor="middle" font-size="12" fill="#14532d">doc₀ · selection₀</text>
+  <text x="130" y="130" text-anchor="middle" font-size="11" fill="#16a34a">storedMarks · 插件字段</text>
+
+  <!-- transaction -->
+  <rect x="300" y="50" width="350" height="124" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.4"/>
+  <text x="475" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">Transaction extends Transform</text>
+  <g font-size="12" fill="#78350f">
+    <text x="320" y="96">steps: [s₁, s₂, …]      docs: [doc₀, doc₁, …]</text>
+    <text x="320" y="116">mapping: Mapping（StepMap 链，位置重映射）</text>
+    <text x="320" y="136">+ selection / storedMarks / meta / time</text>
+    <text x="320" y="156">所有变更方法（replace/addMark/…）只追加 Step</text>
+  </g>
+
+  <!-- state B -->
+  <rect x="720" y="66" width="200" height="76" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="820" y="92" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">EditorState'（新）</text>
+  <text x="820" y="112" text-anchor="middle" font-size="12" fill="#14532d">doc₂ · selection₂</text>
+  <text x="820" y="130" text-anchor="middle" font-size="11" fill="#16a34a">旧状态对象原样保留</text>
+
+  <line x1="230" y1="104" x2="294" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <text x="262" y="94" text-anchor="middle" font-size="11" fill="#64748b">state.tr</text>
+  <line x1="650" y1="104" x2="714" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <text x="682" y="94" text-anchor="middle" font-size="11" fill="#64748b">apply(tr)</text>
+
+  <!-- step detail -->
+  <rect x="300" y="204" width="350" height="120" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="1.2"/>
+  <text x="475" y="228" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">单个 Step（如 ReplaceStep）</text>
+  <g font-size="12" fill="#334155">
+    <text x="320" y="252">apply(doc) → 新 doc（结构共享，旧 doc 不变）</text>
+    <text x="320" y="274">invert(doc) → 逆 Step（撤销 / 协同 rebase）</text>
+    <text x="320" y="296">getMap() → StepMap [start, oldSize, newSize]</text>
+    <text x="320" y="316">map(mapping) → 在其他变更后重定位自身</text>
+  </g>
+  <line x1="475" y1="174" x2="475" y2="200" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+  <!-- plugin pipeline -->
+  <rect x="30" y="204" width="240" height="120" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+  <text x="150" y="228" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">applyTransaction 管线</text>
+  <g font-size="12" fill="#1e3a8a">
+    <text x="45" y="252">① filterTransaction：可否决</text>
+    <text x="45" y="274">② applyInner：逐字段纯函数重建</text>
+    <text x="45" y="296">③ appendTransaction：插件追加</text>
+    <text x="45" y="316">　 事务，循环直至收敛</text>
+  </g>
+
+  <!-- guarantee box -->
+  <rect x="30" y="348" width="890" height="56" rx="10" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="475" y="370" text-anchor="middle" font-size="12" fill="#334155">不可变性保证：EditorState/Node 创建后永不修改；apply 前校验 tr.before.eq(this.doc)（乐观并发控制）；</text>
+  <text x="475" y="390" text-anchor="middle" font-size="12" fill="#334155">选区惰性重映射（读取时才 map 过新增 Step）；结构共享使保留历史版本接近零成本 → 撤销/协同/diff 的基础</text>
+</svg>

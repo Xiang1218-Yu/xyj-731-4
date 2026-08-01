@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="650" viewBox="0 0 920 650" font-family="-apple-system,'PingFang SC','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="460" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#0f172a">ProseMirror 核心模块依赖关系图（单向分层：view → state → transform → model）</text>
+
+  <!-- view layer -->
+  <rect x="40" y="55" width="600" height="105" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="55" y="80" font-size="14" font-weight="bold" fill="#1e40af">prosemirror-view · 视图层</text>
+  <text x="625" y="80" text-anchor="end" font-size="11" fill="#3b82f6">DOM 投影 / 输入捕获</text>
+  <g font-size="12" fill="#1e3a8a">
+    <rect x="55" y="92" width="135" height="34" rx="6" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="122" y="113" text-anchor="middle">EditorView</text>
+    <rect x="200" y="92" width="135" height="34" rx="6" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="267" y="113" text-anchor="middle">ViewDesc 增量同步</text>
+    <rect x="345" y="92" width="135" height="34" rx="6" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="412" y="113" text-anchor="middle">DOMObserver</text>
+    <rect x="490" y="92" width="135" height="34" rx="6" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="557" y="113" text-anchor="middle">DOM 选区同步</text>
+  </g>
+
+  <line x1="340" y1="160" x2="340" y2="188" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- state layer -->
+  <rect x="40" y="190" width="600" height="105" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="55" y="215" font-size="14" font-weight="bold" fill="#166534">prosemirror-state · 状态层</text>
+  <text x="625" y="215" text-anchor="end" font-size="11" fill="#16a34a">不可变状态机</text>
+  <g font-size="12" fill="#14532d">
+    <rect x="55" y="227" width="135" height="34" rx="6" fill="#f0fdf4" stroke="#4ade80"/>
+    <text x="122" y="248" text-anchor="middle">EditorState</text>
+    <rect x="200" y="227" width="135" height="34" rx="6" fill="#f0fdf4" stroke="#4ade80"/>
+    <text x="267" y="248" text-anchor="middle">Transaction</text>
+    <rect x="345" y="227" width="135" height="34" rx="6" fill="#f0fdf4" stroke="#4ade80"/>
+    <text x="412" y="248" text-anchor="middle">Selection 类族</text>
+    <rect x="490" y="227" width="135" height="34" rx="6" fill="#f0fdf4" stroke="#4ade80"/>
+    <text x="557" y="248" text-anchor="middle">Plugin / StateField</text>
+  </g>
+
+  <line x1="340" y1="295" x2="340" y2="323" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- transform layer -->
+  <rect x="40" y="325" width="600" height="105" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="55" y="350" font-size="14" font-weight="bold" fill="#92400e">prosemirror-transform · 变更层</text>
+  <text x="625" y="350" text-anchor="end" font-size="11" fill="#b45309">可逆的原子操作</text>
+  <g font-size="12" fill="#78350f">
+    <rect x="55" y="362" width="135" height="34" rx="6" fill="#fffbeb" stroke="#fbbf24"/>
+    <text x="122" y="383" text-anchor="middle">Transform</text>
+    <rect x="200" y="362" width="135" height="34" rx="6" fill="#fffbeb" stroke="#fbbf24"/>
+    <text x="267" y="383" text-anchor="middle">Step 类族</text>
+    <rect x="345" y="362" width="135" height="34" rx="6" fill="#fffbeb" stroke="#fbbf24"/>
+    <text x="412" y="383" text-anchor="middle">Mapping / StepMap</text>
+  </g>
+
+  <line x1="340" y1="430" x2="340" y2="458" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- model layer -->
+  <rect x="40" y="460" width="600" height="150" rx="10" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
+  <text x="55" y="485" font-size="14" font-weight="bold" fill="#6b21a8">prosemirror-model · 模型层</text>
+  <text x="625" y="485" text-anchor="end" font-size="11" fill="#9333ea">纯数据，无 DOM 依赖</text>
+  <g font-size="12" fill="#581c87">
+    <rect x="55" y="497" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="122" y="518" text-anchor="middle">Schema</text>
+    <rect x="200" y="497" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="267" y="518" text-anchor="middle">Node / TextNode</text>
+    <rect x="345" y="497" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="412" y="518" text-anchor="middle">Mark</text>
+    <rect x="490" y="497" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="557" y="518" text-anchor="middle">Fragment</text>
+    <rect x="55" y="543" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="122" y="564" text-anchor="middle">ResolvedPos</text>
+    <rect x="200" y="543" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="267" y="564" text-anchor="middle">Slice</text>
+    <rect x="345" y="543" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="412" y="564" text-anchor="middle">ContentMatch</text>
+    <rect x="490" y="543" width="135" height="34" rx="6" fill="#faf5ff" stroke="#c084fc"/>
+    <text x="557" y="564" text-anchor="middle">DOMParser/Serializer</text>
+  </g>
+
+  <!-- right panel -->
+  <rect x="670" y="55" width="230" height="555" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="1.2"/>
+  <text x="685" y="85" font-size="14" font-weight="bold" fill="#0f172a">依赖规则</text>
+  <g font-size="12" fill="#334155">
+    <text x="685" y="112">· 箭头只向下，绝不反向</text>
+    <text x="685" y="136">· model 不感知 DOM，</text>
+    <text x="695" y="154">可在 Node.js / 服务端</text>
+    <text x="695" y="172">独立运行</text>
+    <text x="685" y="196">· transform 只依赖</text>
+    <text x="695" y="214">model，与状态机解耦</text>
+    <text x="685" y="238">· state = model +</text>
+    <text x="695" y="256">transform + 插件系统</text>
+    <text x="685" y="280">· view 是模型与浏览器</text>
+    <text x="695" y="298">之间的适配器</text>
+  </g>
+  <line x1="685" y1="318" x2="885" y2="318" stroke="#cbd5e1"/>
+  <text x="685" y="345" font-size="14" font-weight="bold" fill="#0f172a">运行时数据流</text>
+  <g font-size="12" fill="#334155">
+    <text x="685" y="372">渲染方向（向下）：</text>
+    <text x="695" y="392">Node 树 → Serializer</text>
+    <text x="695" y="410">→ ViewDesc → DOM</text>
+    <text x="685" y="438">输入方向（向上）：</text>
+    <text x="695" y="458">DOM 事件 → Observer</text>
+    <text x="695" y="476">→ DOMParser → Slice</text>
+    <text x="695" y="494">→ Transaction → apply</text>
+    <text x="685" y="522">DOM 只是文档的"投影"，</text>
+    <text x="685" y="540">模型层是唯一事实源。</text>
+  </g>
+
+  <text x="340" y="638" text-anchor="middle" font-size="11" fill="#64748b">每个箭头表示源码级 import 依赖；下层模块可脱离上层单独使用</text>
+</svg>

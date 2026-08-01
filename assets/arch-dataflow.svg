@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="400" viewBox="0 0 940 400" font-family="-apple-system,'PingFang SC','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="470" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#0f172a">编辑主循环：一次按键的完整单向数据流</text>
+
+  <!-- top row -->
+  <g font-size="12">
+    <rect x="20" y="60" width="205" height="58" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.2"/>
+    <text x="122" y="84" text-anchor="middle" font-weight="bold" fill="#0f172a">① 用户输入</text>
+    <text x="122" y="103" text-anchor="middle" fill="#475569">键盘 · 粘贴 · 拖拽 · IME</text>
+
+    <rect x="251" y="60" width="205" height="58" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+    <text x="353" y="84" text-anchor="middle" font-weight="bold" fill="#1e40af">② 浏览器先改 DOM</text>
+    <text x="353" y="103" text-anchor="middle" fill="#3b82f6">contenteditable 原生行为</text>
+
+    <rect x="482" y="60" width="205" height="58" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+    <text x="584" y="84" text-anchor="middle" font-weight="bold" fill="#1e40af">③ DOMObserver 捕获</text>
+    <text x="584" y="103" text-anchor="middle" fill="#3b82f6">MutationObserver 回调</text>
+
+    <rect x="713" y="60" width="205" height="58" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+    <text x="815" y="78" text-anchor="middle" font-weight="bold" fill="#1e40af">④ domchange 解析</text>
+    <text x="815" y="96" text-anchor="middle" fill="#3b82f6">diff 变更区间 → DOMParser</text>
+    <text x="815" y="112" text-anchor="middle" fill="#3b82f6">按 Schema 转为 Slice</text>
+  </g>
+
+  <line x1="225" y1="89" x2="247" y2="89" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="456" y1="89" x2="478" y2="89" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="687" y1="89" x2="709" y2="89" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="815" y1="118" x2="815" y2="236" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- bottom row (right to left) -->
+  <g font-size="12">
+    <rect x="713" y="238" width="205" height="58" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+    <text x="815" y="262" text-anchor="middle" font-weight="bold" fill="#92400e">⑤ 生成 Transaction</text>
+    <text x="815" y="281" text-anchor="middle" fill="#b45309">state.tr → 累积 Step + 映射</text>
+
+    <rect x="482" y="238" width="205" height="58" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="584" y="262" text-anchor="middle" font-weight="bold" fill="#166534">⑥ dispatchTransaction</text>
+    <text x="584" y="281" text-anchor="middle" fill="#16a34a">filter / append 插件管线</text>
+
+    <rect x="251" y="238" width="205" height="58" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="353" y="262" text-anchor="middle" font-weight="bold" fill="#166534">⑦ state.apply(tr)</text>
+    <text x="353" y="281" text-anchor="middle" fill="#16a34a">产出全新不可变 EditorState</text>
+
+    <rect x="20" y="238" width="205" height="58" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+    <text x="122" y="262" text-anchor="middle" font-weight="bold" fill="#1e40af">⑧ updateState</text>
+    <text x="122" y="281" text-anchor="middle" fill="#3b82f6">ViewDesc diff → 最小 patch DOM</text>
+  </g>
+
+  <line x1="713" y1="267" x2="691" y2="267" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="482" y1="267" x2="460" y2="267" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="251" y1="267" x2="229" y2="267" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- loop back -->
+  <path d="M 122 238 L 122 124" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <text x="130" y="185" font-size="11" fill="#64748b">DOM 已同步，等待下一次输入</text>
+
+  <rect x="251" y="330" width="436" height="46" rx="8" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="469" y="349" text-anchor="middle" font-size="12" fill="#334155">关键：旧 EditorState 全程不被修改；</text>
+  <text x="469" y="366" text-anchor="middle" font-size="12" fill="#334155">所有变更（文档/选区/滚动）都经由 Transaction 进入状态机</text>
+</svg>
