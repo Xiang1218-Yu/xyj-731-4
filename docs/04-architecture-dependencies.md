@@ -447,4 +447,4 @@ sequenceDiagram
 
 ---
 
-← 返回 [03 选区系统](03-selection.md) | 返回 [主 README](../README.md) | 继续阅读 [05 架构对比 →](05-comparison.md)
+← 返回 [03 选区系统](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/03-selection.md) | 返回 [主 README](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/README.md) | 继续阅读 [05 架构对比 →](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/05-comparison.md)

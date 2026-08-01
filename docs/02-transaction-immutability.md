@@ -1,6 +1,6 @@
 # 02 Transaction 事务机制与状态不可变性
 
-> 对应源码包：[prosemirror-transform](../transform/src/) 和 [prosemirror-state](../state/src/)
+> 对应源码包：[prosemirror-transform](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/) 和 [prosemirror-state](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/)
 
 本章分析 ProseMirror 如何通过 Step（原子步骤）、Transform（变换构建器）、Transaction（状态事务）和 EditorState（不可变状态）构建完整的不可变更新体系。
 
@@ -57,7 +57,7 @@ graph LR
 
 Node 的 `copy()` 方法体现了这一点——当 content 不变时直接返回 `this`：
 
-**关键源码：** [node.ts#L138-L141](../model/src/node.ts#L138-L141)
+**关键源码：** [node.ts#L138-L141](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/node.ts#L138-L141)
 
 ```typescript
 copy(content: Fragment | null = null): Node {
@@ -72,7 +72,7 @@ copy(content: Fragment | null = null): Node {
 
 所有文档修改都被建模为 `Step` 对象。Step 是一个抽象类，每个具体步骤必须实现 `apply`、`invert`、`map`、`getMap`、`toJSON` 等方法。
 
-**关键源码：** [step.ts#L16-L67](../transform/src/step.ts#L16-L67)
+**关键源码：** [step.ts#L16-L67](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/step.ts#L16-L67)
 
 ```typescript
 export abstract class Step {
@@ -121,7 +121,7 @@ Step 的五个核心方法构成了完整的变更契约：
 
 StepResult 区分成功和失败，不抛异常（除非是 ReplaceError 等结构性错误）：
 
-**关键源码：** [step.ts#L71-L97](../transform/src/step.ts#L71-L97)
+**关键源码：** [step.ts#L71-L97](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/step.ts#L71-L97)
 
 ```typescript
 export class StepResult {
@@ -151,7 +151,7 @@ export class StepResult {
 
 `ReplaceStep` 用一个 Slice 替换文档中的一个范围，是绝大多数编辑操作的基础。
 
-**关键源码：** [replace_step.ts#L7-L88](../transform/src/replace_step.ts#L7-L88)
+**关键源码：** [replace_step.ts#L7-L88](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/replace_step.ts#L7-L88)
 
 ```typescript
 export class ReplaceStep extends Step {
@@ -234,7 +234,7 @@ Step.jsonID("replace", ReplaceStep)
 
 `ReplaceAroundStep` 替换一个范围，但保留范围中间的"间隙"（gap）内容，将其移入 slice 的指定位置。这用于包裹（wrap）、解包（lift）等结构性操作。
 
-**关键源码：** [replace_step.ts#L93-L168](../transform/src/replace_step.ts#L93-L168)
+**关键源码：** [replace_step.ts#L93-L168](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/replace_step.ts#L93-L168)
 
 ```typescript
 export class ReplaceAroundStep extends Step {
@@ -312,7 +312,7 @@ Step.jsonID("replaceAround", ReplaceAroundStep)
 
 当文档发生变更时，旧文档中的位置需要映射到新文档。`StepMap` 用紧凑的三元组数组 `[start, oldSize, newSize]` 描述变更范围。
 
-**关键源码：** [map.ts#L36-L164](../transform/src/map.ts#L36-L164)
+**关键源码：** [map.ts#L36-L164](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/map.ts#L36-L164)
 
 ```typescript
 const DEL_BEFORE = 1, DEL_AFTER = 2, DEL_ACROSS = 4, DEL_SIDE = 8
@@ -404,7 +404,7 @@ export class StepMap implements Mappable {
 
 `Mapping` 是多个 StepMap 的管道，支持**镜像映射**（mirroring），用于协作编辑中的 rebase 场景——当一个步骤先被反转再被重放时，镜像机制可以跳过无意义的往返映射。
 
-**关键源码：** [map.ts#L172-L284](../transform/src/map.ts#L172-L284)
+**关键源码：** [map.ts#L172-L284](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/map.ts#L172-L284)
 
 ```typescript
 export class Mapping implements Mappable {
@@ -511,7 +511,7 @@ export class Mapping implements Mappable {
 
 `Transform` 是构建文档变更的流式 API，内部维护三个核心数组：步骤列表、每步前的文档快照和累积的 Mapping。
 
-**关键源码：** [transform.ts#L28-L94](../transform/src/transform.ts#L28-L94)
+**关键源码：** [transform.ts#L28-L94](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/transform.ts#L28-L94)
 
 ```typescript
 export class Transform {
@@ -552,7 +552,7 @@ export class Transform {
 
 Transform 提供了丰富的链式方法。每个方法内部构造相应的 Step 并调用 `step()`：
 
-**关键源码：** [transform.ts#L96-L271](../transform/src/transform.ts#L96-L271)
+**关键源码：** [transform.ts#L96-L271](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/transform.ts#L96-L271)
 
 ```typescript
 replace(from: number, to = from, slice = Slice.empty): this {
@@ -642,11 +642,11 @@ removeMark(from: number, to: number, mark?: Mark | MarkType | null) {
 
 除了 ReplaceStep 和 ReplaceAroundStep，transform 包还提供了以下 Step 类型：
 
-**属性步骤**（[attr_step.ts](../transform/src/attr_step.ts)）：
+**属性步骤**（[attr_step.ts](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/attr_step.ts)）：
 - `AttrStep(pos, attr, value)`：修改指定位置节点的属性
 - `DocAttrStep(attr, value)`：修改文档根节点的属性
 
-**Mark 步骤**（[mark_step.ts](../transform/src/mark_step.ts)）：
+**Mark 步骤**（[mark_step.ts](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/transform/src/mark_step.ts)）：
 - `AddMarkStep(from, to, mark)`：给范围内的行内内容添加 mark
 - `RemoveMarkStep(from, to, mark)`：移除范围内的 mark
 - `AddNodeMarkStep(pos, mark)`：给节点本身添加 mark（非行内内容）
@@ -660,7 +660,7 @@ removeMark(from: number, to: number, mark?: Mark | MarkType | null) {
 
 `Transaction` 继承自 `Transform`，增加了对**选区（selection）**、**存储标记（storedMarks）**和**元数据（meta）**的跟踪。它是产生新 EditorState 的唯一途径。
 
-**关键源码：** [transaction.ts#L20-L215](../state/src/transaction.ts#L20-L215)
+**关键源码：** [transaction.ts#L20-L215](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/transaction.ts#L20-L215)
 
 ```typescript
 const UPDATED_SEL = 1, UPDATED_MARKS = 2, UPDATED_SCROLL = 4
@@ -816,7 +816,7 @@ export class Transaction extends Transform {
 
 `EditorState` 是不可变的编辑器状态快照，包含文档、选区、存储标记和插件状态。应用 Transaction 会产生一个**全新的** EditorState。
 
-**关键源码：** [state.ts#L90-L179](../state/src/state.ts#L90-L179)
+**关键源码：** [state.ts#L90-L179](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/state.ts#L90-L179)
 
 ```typescript
 export class EditorState {
@@ -928,7 +928,7 @@ export class EditorState {
 
 EditorState 内部使用 `FieldDesc` 描述每个状态字段。内置字段包括 `doc`、`selection`、`storedMarks`、`scrollToSelection`，插件可通过 `StateField` 添加自定义字段。
 
-**关键源码：** [state.ts#L11-L61](../state/src/state.ts#L11-L61)
+**关键源码：** [state.ts#L11-L61](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/state.ts#L11-L61)
 
 ```typescript
 class FieldDesc<T> {
@@ -1023,4 +1023,4 @@ sequenceDiagram
 
 ---
 
-← 返回 [01 文档模型](01-schema-node-mark.md) | 返回 [主 README](../README.md) | 继续阅读 [03 选区系统 →](03-selection.md)
+← 返回 [01 文档模型](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/01-schema-node-mark.md) | 返回 [主 README](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/README.md) | 继续阅读 [03 选区系统 →](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/03-selection.md)

@@ -1,6 +1,6 @@
 # 03 Selection 选区系统实现原理
 
-> 对应源码：[state/src/selection.ts](../state/src/selection.ts) 和 [model/src/resolvedpos.ts](../model/src/resolvedpos.ts)
+> 对应源码：[state/src/selection.ts](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts) 和 [model/src/resolvedpos.ts](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/resolvedpos.ts)
 
 本章分析 ProseMirror 的选区系统，包括 Selection 抽象、三种内置选区类型、ResolvedPos 位置解析，以及选区在事务中的自动映射机制。
 
@@ -26,7 +26,7 @@
 
 Selection 表示编辑器中的选区，使用 `$anchor`（锚点，固定端）和 `$head`（头部，移动端）两个 `ResolvedPos` 来描述。这种 anchor/head 模型可以表达有方向的选区（从左向右选还是从右向左选）。
 
-**关键源码：** [selection.ts#L9-L188](../state/src/selection.ts#L9-L188)
+**关键源码：** [selection.ts#L9-L188](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L9-L188)
 
 ```typescript
 export abstract class Selection {
@@ -156,7 +156,7 @@ Selection.prototype.visible = true
 
 ## 3.2 SelectionRange：选区范围
 
-**关键源码：** [selection.ts#L207-L215](../state/src/selection.ts#L207-L215)
+**关键源码：** [selection.ts#L207-L215](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L207-L215)
 
 ```typescript
 export class SelectionRange {
@@ -175,7 +175,7 @@ SelectionRange 是简单的值对象，持有范围两端的 ResolvedPos。
 
 TextSelection 是最常用的选区类型，表示在行内容器中的文本选区。当 anchor == head 时即为光标。
 
-**关键源码：** [selection.ts#L229-L318](../state/src/selection.ts#L229-L318)
+**关键源码：** [selection.ts#L229-L318](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L229-L318)
 
 ```typescript
 export class TextSelection extends Selection {
@@ -274,7 +274,7 @@ class TextBookmark {
 
 NodeSelection 选中整个节点（如图片、分割线等原子节点），anchor 在节点前，head 在节点后。
 
-**关键源码：** [selection.ts#L325-L393](../state/src/selection.ts#L325-L393)
+**关键源码：** [selection.ts#L325-L393](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L325-L393)
 
 ```typescript
 export class NodeSelection extends Selection {
@@ -356,7 +356,7 @@ class NodeBookmark {
 
 AllSelection 选中整个文档内容。
 
-**关键源码：** [selection.ts#L399-L432](../state/src/selection.ts#L399-L432)
+**关键源码：** [selection.ts#L399-L432](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L399-L432)
 
 ```typescript
 export class AllSelection extends Selection {
@@ -401,7 +401,7 @@ AllSelection 的 `map()` 总是返回新的 AllSelection，因为全选不受文
 
 ProseMirror 使用扁平的整数位置定位文档中的点。将位置 resolve 后得到 `ResolvedPos`，它提供了完整的树路径上下文。
 
-**关键源码：** [resolvedpos.ts#L12-L250](../model/src/resolvedpos.ts#L12-L250)
+**关键源码：** [resolvedpos.ts#L12-L250](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/resolvedpos.ts#L12-L250)
 
 ```typescript
 export class ResolvedPos {
@@ -623,7 +623,7 @@ graph LR
 
 SelectionBookmark 是选区的轻量表示，不依赖当前文档，可以在文档变更历史中保存和恢复。
 
-**关键源码：** [selection.ts#L195-L204](../state/src/selection.ts#L195-L204)
+**关键源码：** [selection.ts#L195-L204](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L195-L204)
 
 ```typescript
 export interface SelectionBookmark {
@@ -681,7 +681,7 @@ sequenceDiagram
 
 关键实现在 Transaction 的 selection getter 中：
 
-**关键源码：** [transaction.ts#L71-L77](../state/src/transaction.ts#L71-L77)
+**关键源码：** [transaction.ts#L71-L77](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/transaction.ts#L71-L77)
 
 ```typescript
 get selection(): Selection {
@@ -701,7 +701,7 @@ get selection(): Selection {
 
 `Selection.findFrom` 在给定位置沿指定方向搜索有效选区，先尝试当前层级，再逐级向上查找：
 
-**关键源码：** [selection.ts#L118-L130](../state/src/selection.ts#L118-L130)
+**关键源码：** [selection.ts#L118-L130](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L118-L130)
 
 ```typescript
 static findFrom($pos: ResolvedPos, dir: number, textOnly: boolean = false): Selection | null {
@@ -721,7 +721,7 @@ static findFrom($pos: ResolvedPos, dir: number, textOnly: boolean = false): Sele
 
 内部递归函数 `findSelectionIn` 遍历子节点，在行内容器中创建 TextSelection，在可选择的原子节点上创建 NodeSelection：
 
-**关键源码：** [selection.ts#L439-L452](../state/src/selection.ts#L439-L452)
+**关键源码：** [selection.ts#L439-L452](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L439-L452)
 
 ```typescript
 function findSelectionIn(doc: Node, node: Node, pos: number, index: number, dir: number, text = false): Selection | null {
@@ -742,7 +742,7 @@ function findSelectionIn(doc: Node, node: Node, pos: number, index: number, dir:
 
 辅助函数 `selectionToInsertionEnd` 在替换操作后将选区放到插入内容的末尾：
 
-**关键源码：** [selection.ts#L454-L462](../state/src/selection.ts#L454-L462)
+**关键源码：** [selection.ts#L454-L462](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/selection.ts#L454-L462)
 
 ```typescript
 function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number) {
@@ -770,4 +770,4 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
 
 ---
 
-← 返回 [02 事务机制](02-transaction-immutability.md) | 返回 [主 README](../README.md) | 继续阅读 [04 核心模块依赖关系图 →](04-architecture-dependencies.md)
+← 返回 [02 事务机制](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/02-transaction-immutability.md) | 返回 [主 README](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/README.md) | 继续阅读 [04 核心模块依赖关系图 →](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/04-architecture-dependencies.md)

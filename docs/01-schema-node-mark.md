@@ -1,6 +1,6 @@
 # 01 文档模型：Schema、Node、Mark
 
-> 对应源码包：[prosemirror-model](../model/src/)
+> 对应源码包：[prosemirror-model](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/)
 
 本章详细分析 ProseMirror 文档模型的三大核心概念：Schema（模式）、Node（节点）、Mark（标记），以及它们之间的关系。
 
@@ -25,7 +25,7 @@
 
 `Schema` 是整个文档模型的基石，它定义了文档中**允许出现哪些节点类型和标记类型**，以及它们之间的**内容约束关系**。
 
-**关键源码：** [schema.ts#L571-L630](../model/src/schema.ts#L571-L630)
+**关键源码：** [schema.ts#L571-L630](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/schema.ts#L571-L630)
 
 ```typescript
 export class Schema<Nodes extends string = any, Marks extends string = any> {
@@ -90,7 +90,7 @@ export class Schema<Nodes extends string = any, Marks extends string = any> {
 
 `gatherMarks` 辅助函数将 mark 名称（含 group 名称 `"_"`）解析为 MarkType 数组：
 
-**关键源码：** [schema.ts#L688-L704](../model/src/schema.ts#L688-L704)
+**关键源码：** [schema.ts#L688-L704](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/schema.ts#L688-L704)
 
 ```typescript
 function gatherMarks(schema: Schema, marks: readonly string[]) {
@@ -118,7 +118,7 @@ function gatherMarks(schema: Schema, marks: readonly string[]) {
 
 `NodeType` 描述一类节点的元信息，每个 Schema 中每种节点类型只有一个 NodeType 实例（享元模式）。
 
-**关键源码：** [schema.ts#L59-L246](../model/src/schema.ts#L59-L246)
+**关键源码：** [schema.ts#L59-L246](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/schema.ts#L59-L246)
 
 ```typescript
 export class NodeType {
@@ -249,7 +249,7 @@ graph TD
 
 `Node` 是文档树的基本单元。**所有 Node 实例都是不可变的（persistent data structure）**——修改文档不会改变现有节点，而是通过结构共享创建新节点。
 
-**关键源码：** [node.ts#L22-L349](../model/src/node.ts#L22-L349)
+**关键源码：** [node.ts#L22-L349](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/node.ts#L22-L349)
 
 ```typescript
 export class Node {
@@ -438,7 +438,7 @@ export class Node {
 
 `TextNode` 继承自 Node，专门表示文本内容。文本节点没有 content（Fragment 为空），而是直接持有 `text` 字符串。
 
-**关键源码：** [node.ts#L353-L397](../model/src/node.ts#L353-L397)
+**关键源码：** [node.ts#L353-L397](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/node.ts#L353-L397)
 
 ```typescript
 export class TextNode extends Node {
@@ -493,7 +493,7 @@ export class TextNode extends Node {
 
 `Fragment` 不是 DOM 中的 DocumentFragment，而是 Node 子节点的**不可变有序集合**，维护子节点数组和总大小。
 
-**关键源码：** [fragment.ts#L10-L261](../model/src/fragment.ts#L10-L261)
+**关键源码：** [fragment.ts#L10-L261](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/fragment.ts#L10-L261)
 
 ```typescript
 export class Fragment {
@@ -676,7 +676,7 @@ export class Fragment {
 
 `Mark` 表示附加在行内节点上的格式信息（如粗体、斜体、链接）。Mark 本身是**不可变值对象**，通过 `type + attrs` 唯一标识。
 
-**关键源码：** [mark.ts#L10-L111](../model/src/mark.ts#L10-L111)
+**关键源码：** [mark.ts#L10-L111](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/mark.ts#L10-L111)
 
 ```typescript
 export class Mark {
@@ -781,7 +781,7 @@ export class Mark {
 
 `MarkType` 是 Mark 的类型描述，每个 Schema 中每种 mark 类型只有一个实例。
 
-**关键源码：** [schema.ts#L280-L346](../model/src/schema.ts#L280-L346)
+**关键源码：** [schema.ts#L280-L346](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/schema.ts#L280-L346)
 
 ```typescript
 export class MarkType {
@@ -839,7 +839,7 @@ export class MarkType {
 
 ContentMatch 将 content 表达式编译为**确定性有限自动机（DFA）**，用于验证内容合法性和计算自动填充。
 
-**关键源码：** [content.ts#L10-L133](../model/src/content.ts#L10-L133)
+**关键源码：** [content.ts#L10-L133](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/content.ts#L10-L133)
 
 ```typescript
 export class ContentMatch {
@@ -955,7 +955,7 @@ export class ContentMatch {
 
 `Slice` 表示从文档中切出的一片内容，不仅包含 Fragment，还记录了两侧"开放"的深度（即切片在原文档中被切断了多少层父节点）。
 
-**关键源码：** [replace.ts#L13-L75](../model/src/replace.ts#L13-L75)
+**关键源码：** [replace.ts#L13-L75](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/model/src/replace.ts#L13-L75)
 
 ```typescript
 export class Slice {
@@ -1129,4 +1129,4 @@ classDiagram
 
 ---
 
-← 返回 [主 README](../README.md) | 继续阅读 [02 事务机制与状态不可变性 →](02-transaction-immutability.md)
+← 返回 [主 README](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/README.md) | 继续阅读 [02 事务机制与状态不可变性 →](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/02-transaction-immutability.md)

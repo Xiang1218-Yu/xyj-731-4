@@ -318,7 +318,7 @@ Slate 核心不内置协作支持：
 
 ProseMirror 的 Plugin 是最完整的扩展单元，可以同时拥有状态、事务钩子、DOM 事件处理和视图组件。
 
-**关键源码：** [plugin.ts#L71-L89](../state/src/plugin.ts#L71-L89)
+**关键源码：** [plugin.ts#L71-L89](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/state/src/plugin.ts#L71-L89)
 
 ```typescript
 const myPlugin = new Plugin({
@@ -453,4 +453,4 @@ Quill 通过 Parchment 库直接操作 DOM：
 
 ---
 
-← 返回 [04 架构图](04-architecture-dependencies.md) | 返回 [主 README](../README.md) | 继续阅读 [06 代码索引 →](06-code-index.md)
+← 返回 [04 架构图](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/04-architecture-dependencies.md) | 返回 [主 README](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/README.md) | 继续阅读 [06 代码索引 →](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Steve/docs/06-code-index.md)
