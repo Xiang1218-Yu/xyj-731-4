@@ -59,7 +59,7 @@ constructor(spec: SchemaSpec<Nodes, Marks>) {
 2. **约束在创建与变更两条路径上强制执行**：`NodeType.createChecked`（schema.ts:160）先 `checkContent` 再构造；`Node.validContent`（schema.ts:188）同时校验内容结构与每个子节点的 marks 是否被允许。
 3. **互斥规则在编译期求值**：`excludes` 字符串在构造时被解析成 `MarkType[]`，运行时 `Mark.addToSet` 只做 O(n) 查表。
 
-Schema 还承担 **工厂** 职责（`schema.node()` / `schema.text()` / `schema.mark()`，schema.ts:646-671），以及序列化锚点（`nodeFromJSON` / `markFromJSON`），保证 JSON 反序列化也走同一套校验。
+Schema 还承担 **工厂** 职责（`schema.node()` L646 / `schema.text()` L662 / `schema.mark()` L668），以及序列化锚点（`nodeFromJSON` / `markFromJSON`），保证 JSON 反序列化也走同一套校验。
 
 ## 2.3 Node：持久化（不可变）的文档树
 
@@ -124,7 +124,7 @@ replaceChild(index: number, node: Node) {
 
 两个工程化细节：
 
-- **文本节点自动合并**：`Fragment.append` / `fromArray`（fragment.ts:76、227）在拼接时合并相邻同 markup 的文本节点，保证文档的**规范化**（canonical form）——两个语义相同的文档在结构上也相同，diff 才有意义。
+- **文本节点自动合并**：`Fragment.append` / `fromArray`（fragment.ts:73、227）在拼接时合并相邻同 markup 的文本节点，保证文档的**规范化**（canonical form）——两个语义相同的文档在结构上也相同，diff 才有意义。
 - **惰性相等**：`Node.eq` 先比引用（`this == other`），引用相等立即返回。配合结构共享，未修改子树的比较是 O(1)。
 
 ## 2.5 Mark：带类型的平行标签

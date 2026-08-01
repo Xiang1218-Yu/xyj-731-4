@@ -135,7 +135,7 @@ get selection(): Selection {
   }
   ```
 
-- `Mapping`（map.ts:236+）把一串 StepMap 串起来，`assoc`（±1）决定位置偏向插入内容的哪一侧，`mapResult` 报告位置是否被删除；mirror 机制支持 rebase（一个分支的位置映射穿过另一个分支的变更）。
+- `Mapping`（map.ts:172）把一串 StepMap 串起来，`assoc`（±1）决定位置偏向插入内容的哪一侧，`mapResult` 报告位置是否被删除；mirror 机制支持 rebase（一个分支的位置映射穿过另一个分支的变更）。
 - 选区、装饰（decoration）、协同光标全都靠它在新文档上"着陆"。
 
 ---
