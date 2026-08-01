@@ -2,7 +2,7 @@
 
 > 基于 ProseMirror v1.25.x 核心源码的深度分析，涵盖文档模型、事务机制、选区系统、模块依赖及与 Slate、Quill 的架构对比。
 >
-> 所有代码引用均指向项目本地源码：[model/src/](model/src)、[transform/src/](transform/src)、[state/src/](state/src)、[view/src/](view/src)。
+> 所有代码引用均指向项目本地源码（[model/src/](model/src)、[transform/src/](transform/src)、[state/src/](state/src)、[view/src/](view/src)），文档内链接使用相对路径。
 
 ---
 
@@ -30,10 +30,10 @@ ProseMirror 采用**分层、模块化、函数式**的架构设计，核心由�
 
 | 文档 | 内容 | 核心源码 |
 |------|------|---------|
-| [01 - 文档模型](docs/01-document-model.md) | Schema、Node、TextNode、Mark、Fragment、ResolvedPos 的设计原理 | [model/src/schema.ts](model/src/schema.ts)、[node.ts](model/src/node.ts)、[mark.ts](model/src/mark.ts) |
-| [02 - Transaction 事务机制](docs/02-transaction.md) | Step 原子变更、StepMap/Mapping 位置映射、Transform、不可变状态更新 | [transform/src/transform.ts](transform/src/transform.ts)、[step.ts](transform/src/step.ts)、[state/src/transaction.ts](state/src/transaction.ts) |
-| [03 - Selection 选区系统](docs/03-selection.md) | Selection 基类、TextSelection/NodeSelection/AllSelection、选区映射、Bookmark | [state/src/selection.ts](state/src/selection.ts) |
-| [04 - 插件系统与模块依赖](docs/04-plugin-and-dependencies.md) | Plugin、StateField、模块依赖关系 | [state/src/plugin.ts](state/src/plugin.ts) |
+| [01 - 文档模型](docs/01-document-model.md) | Schema、Node、TextNode、Mark、Fragment、ResolvedPos 的设计原理 | [schema.ts](model/src/schema.ts)、[node.ts](model/src/node.ts)、[mark.ts](model/src/mark.ts) |
+| [02 - Transaction 事务机制](docs/02-transaction.md) | Step 原子变更、StepMap/Mapping 位置映射、Transform、不可变状态更新 | [transform.ts](transform/src/transform.ts)、[step.ts](transform/src/step.ts)、[transaction.ts](state/src/transaction.ts) |
+| [03 - Selection 选区系统](docs/03-selection.md) | Selection 基类、TextSelection/NodeSelection/AllSelection、选区映射、Bookmark | [selection.ts](state/src/selection.ts) |
+| [04 - 插件系统与模块依赖](docs/04-plugin-and-dependencies.md) | Plugin、StateField、模块依赖关系 | [plugin.ts](state/src/plugin.ts) |
 | [05 - 编辑器架构对比](docs/05-comparison.md) | ProseMirror vs Slate vs Quill 在 14 个维度的差异 | — |
 | [06 - 关键源码索引](docs/06-source-index.md) | 所有关键类/方法的本地源码位置速查 | 全模块 |
 
