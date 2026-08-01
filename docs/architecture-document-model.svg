@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="rel" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <filter id="sh" x="-8%" y="-8%" width="116%" height="124%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <rect width="980" height="620" fill="#f8fafc"/>
+  <text x="490" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">ProseMirror 文档模型类关系图</text>
+
+  <!-- Schema -->
+  <rect x="380" y="70" width="220" height="120" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2" filter="url(#sh)"/>
+  <text x="490" y="98" text-anchor="middle" font-size="17" font-weight="700" fill="#92400e">Schema</text>
+  <line x1="395" y1="108" x2="585" y2="108" stroke="#fcd34d"/>
+  <text x="490" y="128" text-anchor="middle" font-size="11" fill="#78350f">nodes: { [name]: NodeType }</text>
+  <text x="490" y="146" text-anchor="middle" font-size="11" fill="#78350f">marks: { [name]: MarkType }</text>
+  <text x="490" y="164" text-anchor="middle" font-size="11" fill="#78350f">topNodeType · cached</text>
+  <text x="490" y="182" text-anchor="middle" font-size="11" fill="#78350f">node() · text() · mark()</text>
+
+  <!-- NodeType -->
+  <rect x="80" y="260" width="200" height="130" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="180" y="288" text-anchor="middle" font-size="15" font-weight="700" fill="#334155">NodeType</text>
+  <line x1="95" y1="298" x2="265" y2="298" stroke="#e2e8f0"/>
+  <text x="180" y="318" text-anchor="middle" font-size="11" fill="#475569">name · schema · spec</text>
+  <text x="180" y="336" text-anchor="middle" font-size="11" fill="#475569">groups · attrs · defaultAttrs</text>
+  <text x="180" y="354" text-anchor="middle" font-size="11" fill="#475569">contentMatch · markSet</text>
+  <text x="180" y="372" text-anchor="middle" font-size="11" fill="#475569">isBlock · isText · isLeaf</text>
+
+  <!-- MarkType -->
+  <rect x="700" y="260" width="200" height="130" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="800" y="288" text-anchor="middle" font-size="15" font-weight="700" fill="#334155">MarkType</text>
+  <line x1="715" y1="298" x2="885" y2="298" stroke="#e2e8f0"/>
+  <text x="800" y="318" text-anchor="middle" font-size="11" fill="#475569">name · rank · schema · spec</text>
+  <text x="800" y="336" text-anchor="middle" font-size="11" fill="#475569">attrs · excluded</text>
+  <text x="800" y="354" text-anchor="middle" font-size="11" fill="#475569">instance (默认值单例)</text>
+  <text x="800" y="372" text-anchor="middle" font-size="11" fill="#475569">create() · excludes()</text>
+
+  <!-- Schema -> NodeType / MarkType -->
+  <line x1="420" y1="190" x2="200" y2="255" stroke="#64748b" stroke-width="2" marker-end="url(#rel)"/>
+  <text x="290" y="218" font-size="11" fill="#475569">编译生成</text>
+  <line x1="560" y1="190" x2="760" y2="255" stroke="#64748b" stroke-width="2" marker-end="url(#rel)"/>
+  <text x="660" y="218" font-size="11" fill="#475569">编译生成</text>
+
+  <!-- Node -->
+  <rect x="60" y="450" width="240" height="140" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2" filter="url(#sh)"/>
+  <text x="180" y="478" text-anchor="middle" font-size="16" font-weight="700" fill="#1e40af">Node</text>
+  <line x1="75" y1="488" x2="285" y2="488" stroke="#93c5fd"/>
+  <text x="180" y="508" text-anchor="middle" font-size="11" fill="#1e3a8a">type: NodeType (共享单例)</text>
+  <text x="180" y="526" text-anchor="middle" font-size="11" fill="#1e3a8a">attrs: Attrs</text>
+  <text x="180" y="544" text-anchor="middle" font-size="11" fill="#1e3a8a">content: Fragment</text>
+  <text x="180" y="562" text-anchor="middle" font-size="11" fill="#1e3a8a">marks: readonly Mark[]</text>
+  <text x="180" y="580" text-anchor="middle" font-size="11" fill="#1e3a8a">copy() · cut() · mark() · eq()</text>
+
+  <!-- TextNode -->
+  <rect x="350" y="470" width="200" height="100" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2" stroke-dasharray="6,3" filter="url(#sh)"/>
+  <text x="450" y="498" text-anchor="middle" font-size="15" font-weight="700" fill="#1e40af">TextNode (extends Node)</text>
+  <line x1="365" y1="508" x2="535" y2="508" stroke="#93c5fd"/>
+  <text x="450" y="530" text-anchor="middle" font-size="11" fill="#1e3a8a">text: string</text>
+  <text x="450" y="550" text-anchor="middle" font-size="11" fill="#1e3a8a">nodeSize = text.length</text>
+
+  <!-- NodeType -> Node (creates many) -->
+  <line x1="180" y1="390" x2="180" y2="445" stroke="#64748b" stroke-width="2" marker-end="url(#rel)"/>
+  <text x="190" y="420" font-size="11" fill="#475569">create() 创建多个实例</text>
+  <!-- Node -> TextNode inheritance -->
+  <line x1="300" y1="520" x2="345" y2="520" stroke="#2563eb" stroke-width="2" marker-end="url(#rel)"/>
+  <text x="322" y="512" text-anchor="middle" font-size="10" fill="#1e40af">继承</text>
+
+  <!-- Fragment -->
+  <rect x="600" y="450" width="200" height="120" rx="10" fill="#fce7f3" stroke="#db2777" stroke-width="2" filter="url(#sh)"/>
+  <text x="700" y="478" text-anchor="middle" font-size="16" font-weight="700" fill="#9d174d">Fragment</text>
+  <line x1="615" y1="488" x2="785" y2="488" stroke="#f9a8d4"/>
+  <text x="700" y="508" text-anchor="middle" font-size="11" fill="#831843">content: readonly Node[]</text>
+  <text x="700" y="526" text-anchor="middle" font-size="11" fill="#831843">size: number</text>
+  <text x="700" y="548" text-anchor="middle" font-size="11" fill="#831843">append() · cut() · fromArray()</text>
+  <!-- Node -- content --> Fragment
+  <line x1="300" y1="540" x2="595" y2="510" stroke="#64748b" stroke-width="1.8" marker-end="url(#rel)"/>
+  <text x="440" y="510" font-size="11" fill="#475569">包含</text>
+
+  <!-- Mark -->
+  <rect x="830" y="450" width="130" height="120" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" filter="url(#sh)"/>
+  <text x="895" y="478" text-anchor="middle" font-size="16" font-weight="700" fill="#5b21b6">Mark</text>
+  <line x1="842" y1="488" x2="948" y2="488" stroke="#c4b5fd"/>
+  <text x="895" y="508" text-anchor="middle" font-size="11" fill="#4c1d95">type: MarkType</text>
+  <text x="895" y="526" text-anchor="middle" font-size="11" fill="#4c1d95">attrs: Attrs</text>
+  <text x="895" y="548" text-anchor="middle" font-size="10" fill="#4c1d95">addToSet()</text>
+  <!-- Node.marks: Mark[] -->
+  <line x1="800" y1="510" x2="825" y2="510" stroke="#64748b" stroke-width="1.8" marker-end="url(#rel)"/>
+  <text x="812" y="502" text-anchor="middle" font-size="10" fill="#475569">marks[]</text>
+  <!-- MarkType -> Mark -->
+  <line x1="800" y1="390" x2="870" y2="445" stroke="#64748b" stroke-width="2" marker-end="url(#rel)"/>
+  <text x="850" y="418" font-size="10" fill="#475569">create()</text>
+
+  <!-- Legend -->
+  <rect x="600" y="260" width="80" height="30" rx="6" fill="#fff" stroke="#cbd5e1"/>
+  <text x="640" y="280" text-anchor="middle" font-size="10" fill="#64748b">图例区</text>
+</svg>
