@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="360" viewBox="0 0 940 360" font-family="-apple-system,'PingFang SC','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="arr5" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="470" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#0f172a">Selection 选区系统：token 流上的 anchor / head</text>
+
+  <!-- TextSelection highlight -->
+  <rect x="120" y="66" width="300" height="26" rx="4" fill="#bfdbfe" opacity="0.75"/>
+  <text x="270" y="58" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">TextSelection：anchor=1（不动端） head=6（移动端）</text>
+
+  <!-- NodeSelection bracket -->
+  <rect x="480" y="96" width="300" height="18" rx="4" fill="#fde68a" opacity="0.85"/>
+  <text x="630" y="88" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">NodeSelection：from=7 to=12（anchor=from, head=to，包住整个节点）</text>
+
+  <!-- token stream -->
+  <line x1="60" y1="130" x2="840" y2="130" stroke="#334155" stroke-width="2"/>
+  <g font-size="11" fill="#475569" text-anchor="middle">
+    <g stroke="#334155" stroke-width="1.4">
+      <line x1="60" y1="124" x2="60" y2="136"/><line x1="120" y1="124" x2="120" y2="136"/>
+      <line x1="180" y1="124" x2="180" y2="136"/><line x1="240" y1="124" x2="240" y2="136"/>
+      <line x1="300" y1="124" x2="300" y2="136"/><line x1="360" y1="124" x2="360" y2="136"/>
+      <line x1="420" y1="124" x2="420" y2="136"/><line x1="480" y1="124" x2="480" y2="136"/>
+      <line x1="540" y1="124" x2="540" y2="136"/><line x1="600" y1="124" x2="600" y2="136"/>
+      <line x1="660" y1="124" x2="660" y2="136"/><line x1="720" y1="124" x2="720" y2="136"/>
+      <line x1="780" y1="124" x2="780" y2="136"/><line x1="840" y1="124" x2="840" y2="136"/>
+    </g>
+    <text x="60" y="152">0</text><text x="120" y="152">1</text><text x="180" y="152">2</text>
+    <text x="240" y="152">3</text><text x="300" y="152">4</text><text x="360" y="152">5</text>
+    <text x="420" y="152">6</text><text x="480" y="152">7</text><text x="540" y="152">8</text>
+    <text x="600" y="152">9</text><text x="660" y="152">10</text><text x="720" y="152">11</text>
+    <text x="780" y="152">12</text><text x="840" y="152">13</text>
+  </g>
+  <g font-size="11" fill="#94a3b8" text-anchor="middle">
+    <text x="270" y="172">│──── paragraph("hello") ────│</text>
+    <text x="630" y="172">│───── blockquote("hi") ─────│</text>
+  </g>
+
+  <!-- anchor/head pins -->
+  <circle cx="120" cy="130" r="5" fill="#2563eb"/>
+  <circle cx="420" cy="130" r="5" fill="#dc2626"/>
+
+  <!-- subclass boxes -->
+  <g font-size="12">
+    <rect x="40" y="196" width="270" height="104" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <text x="175" y="220" text-anchor="middle" font-weight="bold" fill="#1e40af">TextSelection</text>
+    <text x="55" y="244" fill="#1e3a8a">两端须指向 textblock 内</text>
+    <text x="55" y="264" fill="#1e3a8a">anchor==head 时 $cursor 有效</text>
+    <text x="55" y="284" fill="#1e3a8a">storedMarks 仅光标时保留</text>
+
+    <rect x="335" y="196" width="270" height="104" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.2"/>
+    <text x="470" y="220" text-anchor="middle" font-weight="bold" fill="#92400e">NodeSelection</text>
+    <text x="350" y="244" fill="#78350f">选中整个 selectable 节点</text>
+    <text x="350" y="264" fill="#78350f">图片 / 分割线 / 自定义块</text>
+    <text x="350" y="284" fill="#78350f">visible=false：高亮靠视图渲染</text>
+
+    <rect x="630" y="196" width="270" height="104" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="765" y="220" text-anchor="middle" font-weight="bold" fill="#166534">AllSelection</text>
+    <text x="645" y="244" fill="#14532d">全选文档（0 → content.size）</text>
+    <text x="645" y="264" fill="#14532d">兜底：首尾是不可文本选中的</text>
+    <text x="645" y="284" fill="#14532d">叶块时也能表达 Ctrl+A</text>
+  </g>
+
+  <rect x="40" y="316" width="860" height="34" rx="8" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="470" y="337" text-anchor="middle" font-size="12" fill="#334155">通用机制：map(doc, mapping) 随文档迁移 · Selection.near 搜索最近合法落点 · Bookmark 供 history 保存/恢复选区</text>
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="440" viewBox="0 0 940 440" font-family="-apple-system,'PingFang SC','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="arr3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="470" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#0f172a">文档模型：Node 树 + token 位置索引 + Schema/Mark 关系</text>
+
+  <!-- left: document tree with token positions -->
+  <text x="220" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">示例文档树（蓝色数字 = 整数位置）</text>
+
+  <rect x="40" y="62" width="370" height="330" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="1.4"/>
+  <text x="55" y="84" font-size="13" font-weight="bold" fill="#0f172a">doc</text>
+
+  <rect x="65" y="96" width="330" height="82" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="80" y="116" font-size="12" font-weight="bold" fill="#166534">paragraph</text>
+  <rect x="90" y="126" width="230" height="36" rx="6" fill="#fff" stroke="#4ade80"/>
+  <text x="205" y="149" text-anchor="middle" font-size="12" fill="#14532d">text "hello"  marks:[strong]</text>
+
+  <rect x="65" y="204" width="330" height="162" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+  <text x="80" y="224" font-size="12" font-weight="bold" fill="#1e40af">blockquote</text>
+  <rect x="90" y="238" width="280" height="102" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="105" y="258" font-size="12" font-weight="bold" fill="#166534">paragraph</text>
+  <rect x="115" y="270" width="190" height="36" rx="6" fill="#fff" stroke="#4ade80"/>
+  <text x="210" y="293" text-anchor="middle" font-size="12" fill="#14532d">text "hi"</text>
+
+  <!-- position badges -->
+  <g font-size="11" font-weight="bold" fill="#2563eb">
+    <text x="45" y="100">0</text>
+    <text x="70" y="130">1</text>
+    <text x="70" y="176">6</text>
+    <text x="45" y="198">7</text>
+    <text x="70" y="242">8</text>
+    <text x="95" y="274">9</text>
+    <text x="95" y="324">11</text>
+    <text x="70" y="358">12</text>
+    <text x="45" y="386">13</text>
+  </g>
+
+  <text x="220" y="416" text-anchor="middle" font-size="11" fill="#64748b">位置规则：非叶节点 = 2 token（开/闭标签），叶 = 1，文本 = 字符数</text>
+
+  <!-- right: structure relations -->
+  <text x="675" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">三要素关系</text>
+
+  <rect x="450" y="62" width="205" height="152" rx="10" fill="#faf5ff" stroke="#9333ea" stroke-width="1.4"/>
+  <text x="465" y="84" font-size="13" font-weight="bold" fill="#6b21a8">Node（不可变）</text>
+  <g font-size="12" fill="#581c87">
+    <text x="465" y="106">type: NodeType</text>
+    <text x="465" y="126">attrs: Attrs</text>
+    <text x="465" y="146">marks: Mark[]（rank 有序）</text>
+    <text x="465" y="166">content: Fragment</text>
+    <text x="465" y="192" fill="#9333ea">改内容 → 新建节点，旧树保留</text>
+  </g>
+
+  <rect x="705" y="62" width="215" height="100" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="720" y="84" font-size="13" font-weight="bold" fill="#166534">Fragment</text>
+  <g font-size="12" fill="#14532d">
+    <text x="720" y="106">children: readonly Node[]</text>
+    <text x="720" y="126">size 预缓存</text>
+    <text x="720" y="146">相邻同 markup 文本自动合并</text>
+  </g>
+
+  <rect x="705" y="186" width="215" height="96" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.4"/>
+  <text x="720" y="208" font-size="13" font-weight="bold" fill="#92400e">Mark</text>
+  <g font-size="12" fill="#78350f">
+    <text x="720" y="230">type: MarkType · attrs</text>
+    <text x="720" y="250">excludes 互斥 · rank 排序</text>
+    <text x="720" y="270">平行挂载，不嵌套</text>
+  </g>
+
+  <rect x="450" y="238" width="205" height="128" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="465" y="260" font-size="13" font-weight="bold" fill="#1e40af">Schema</text>
+  <g font-size="12" fill="#1e3a8a">
+    <text x="465" y="282">定义 NodeType / MarkType</text>
+    <text x="465" y="302">内容表达式 → ContentMatch</text>
+    <text x="465" y="322">创建 + 校验 + 序列化</text>
+    <text x="465" y="342">每个文档必须有 Schema</text>
+  </g>
+
+  <line x1="552" y1="238" x2="552" y2="218" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <text x="560" y="230" font-size="11" fill="#64748b">定义/约束</text>
+  <line x1="655" y1="112" x2="701" y2="112" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <text x="658" y="104" font-size="11" fill="#64748b">content</text>
+  <line x1="655" y1="180" x2="708" y2="216" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <text x="660" y="196" font-size="11" fill="#64748b">marks</text>
+
+  <text x="675" y="416" text-anchor="middle" font-size="11" fill="#64748b">Node.resolve(pos) → ResolvedPos：携带 depth/parent/前后节点 的"游标"</text>
+</svg>
