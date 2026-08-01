@@ -26,7 +26,7 @@ export class EditorState {
 
 ### 1.1 字段化的状态（Field 机制）
 
-状态由一组 `FieldDesc` 描述，每个字段有 `init` 和 `apply`（[state.ts:11-41](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/state.ts#L11-L41)）：
+状态由一组 `FieldDesc` 描述，每个字段有 `init` 和 `apply`（[state.ts:11-19](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/state.ts#L11-L19)）：
 
 ```ts
 // state/src/state.ts:21-41 —— 内置字段
@@ -183,7 +183,7 @@ map(mapping: Mappable) {
 // 静态默认偏置，见 replace_step.ts:85 —— static MAP_BIAS: -1 | 1 = 1
 ```
 
-注意 `apply` 通过 `StepResult.fromReplace` → `doc.replace(...)` 得到**全新文档**（[step.ts:89-95](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/transform/src/step.ts#L89-L95)），原文档不变——不可变性从最底层贯穿到最顶层。
+注意 `apply` 通过 `StepResult.fromReplace` → `doc.replace(...)` 得到**全新文档**（[step.ts:89-96](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/transform/src/step.ts#L89-L96)），原文档不变——不可变性从最底层贯穿到最顶层。
 
 ### 3.3 Step 四能力的意义
 

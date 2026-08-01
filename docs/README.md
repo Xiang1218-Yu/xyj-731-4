@@ -94,9 +94,9 @@ Document (Node: type=doc)
               └── content: Fragment [ TextNode("Title") ]
 ```
 
-- **Schema**（[schema.ts:571](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L571-L630)）：文档的"类型系统"。持有所有 `NodeType` 和 `MarkType`，负责创建节点、校验内容、序列化/反序列化。
-- **Node**（[node.ts:22](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/node.ts#L22-L38)）：树中的一个节点，持久化不可变。由 `type`、`attrs`、`content`（子节点 Fragment）、`marks` 四要素构成。
-- **Mark**（[mark.ts:10](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/mark.ts#L10-L17)）：附着在（通常是内联）节点上的元信息，如加粗、链接。由 `type` + `attrs` 构成，同样不可变。
+- **Schema**（[schema.ts:571-630](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L571-L630)）：文档的"类型系统"。持有所有 `NodeType` 和 `MarkType`，负责创建节点、校验内容、序列化/反序列化。
+- **Node**（[node.ts:22-38](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/node.ts#L22-L38)）：树中的一个节点，持久化不可变。由 `type`、`attrs`、`content`（子节点 Fragment）、`marks` 四要素构成。
+- **Mark**（[mark.ts:10-17](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/mark.ts#L10-L17)）：附着在（通常是内联）节点上的元信息，如加粗、链接。由 `type` + `attrs` 构成，同样不可变。
 
 ### 2.2 关键关系
 
@@ -104,7 +104,7 @@ Document (Node: type=doc)
 
 **② NodeType/MarkType 每个 Schema 只实例化一次。** 见 [NodeType.compile](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L235-L245) 和 [MarkType.compile](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L314-L318)。因此可以用 `===` 直接比较类型。
 
-**③ 内容合法性由 ContentMatch（内容表达式的有限状态机）保证。** Schema 构造时把 `content: "paragraph+"` 这样的表达式编译成状态机 [schema.ts:604-611](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L604-L611)，创建/替换节点时校验：
+**③ 内容合法性由 ContentMatch（内容表达式的有限状态机）保证。** Schema 构造时把 `content: "paragraph+"` 这样的表达式编译成状态机（`ContentMatch.parse` 调用见 [schema.ts:609-610](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L609-L610)，所在编译循环 [schema.ts:605-620](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L605-L620)），创建/替换节点时校验：
 
 ```ts
 // model/src/schema.ts:187-193 —— 校验 Fragment 是否是该节点类型的合法内容
@@ -146,7 +146,7 @@ oldState.apply(tr) ────────────────────�
 
 `Transaction` 继承自 `Transform`（[transaction.ts:42](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/transaction.ts#L42)）。分工：
 
-- **Transform**（[transform.ts:28](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/transform/src/transform.ts#L28-L41)）：只关心文档变更，维护 `steps[]`、`docs[]`（每步前的文档）、`mapping`。
+- **Transform**（[transform.ts:28-41](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/transform/src/transform.ts#L28-L41)）：只关心文档变更，维护 `steps[]`、`docs[]`（每步前的文档）、`mapping`。
 - **Transaction**：在此之上叠加 selection、storedMarks、时间戳、metadata、scroll 意图等编辑器状态。
 
 每一次 `addStep` 都是 append，旧文档保存在 `docs[]` 中，`doc` 指向最新版本（[transform.ts:89-94](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/transform/src/transform.ts#L89-L94)）。
@@ -156,7 +156,7 @@ oldState.apply(tr) ────────────────────�
 不可变性的基石是 `Step`：一个描述原子变更的对象（[step.ts:16-67](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/transform/src/step.ts#L16-L67)）。它的 `apply(doc)` **返回新文档而非修改入参**：
 
 ```ts
-// transform/src/replace_step.ts:28-36
+// transform/src/replace_step.ts:28-40（节选，getMap/invert 已压缩为单行示意）
 apply(doc: Node) {
   if (this.structure && contentBetween(doc, this.from, this.to))
     return StepResult.fail("Structure replace would overwrite content")
@@ -199,9 +199,9 @@ Step 的四个能力构成整个体系的支柱：
   ($cursor 判空)    (选中 image 等)     (Ctrl+A)
 ```
 
-- **TextSelection**（[selection.ts:229](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L229-L305)）：经典文本选区，`$cursor` 非空即为折叠光标。
-- **NodeSelection**（[selection.ts:325](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L325-L376)）：选中单个节点（如图片），`from/to` 恰好包住该节点。
-- **AllSelection**（[selection.ts:399](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L399-L420)）：全选，能表达纯文本选区无法表达的边界情况。
+- **TextSelection**（[selection.ts:229-305](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L229-L305)）：经典文本选区，`$cursor` 非空即为折叠光标。
+- **NodeSelection**（[selection.ts:325-376](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L325-L376)）：选中单个节点（如图片），`from/to` 恰好包住该节点。
+- **AllSelection**（[selection.ts:399-420](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L399-L420)）：全选，能表达纯文本选区无法表达的边界情况。
 
 ### 4.2 ResolvedPos —— 选区定位的关键
 
@@ -296,7 +296,7 @@ schema.ts ──▶ node.ts ──▶ fragment.ts ──▶ mark.ts
 | 维度 | **ProseMirror** | **Slate** | **Quill** |
 |------|-----------------|-----------|-----------|
 | 文档模型 | 严格 Schema 约束的树；Node + Mark 分离 | JSON 树（无强制 schema，靠 normalize 规则约束） | Delta（扁平的 op 列表，非树） |
-| 数据结构 | 持久化不可变（结构共享） | 不可变（Immer，操作产生新对象） | 可变的线性 Delta |
+| 数据结构 | 持久化不可变（结构共享的树） | 不可变（Immer，操作产生新对象） | Delta 值对象（compose/transform 返回新 Delta，非结构共享树） |
 | 变更表示 | Step（原子/可逆/可映射/可序列化） | Operation（9 种基础 op） | Delta op（insert/retain/delete） |
 | 状态管理 | EditorState + Transaction 单向流 | React 受控组件 + Editor 对象 | 内部 model，命令式 API |
 | Schema | 一等公民，编译成内容状态机强校验 | 无内建 schema，靠 `normalizeNode` | 无 schema，靠 formats 白名单 |

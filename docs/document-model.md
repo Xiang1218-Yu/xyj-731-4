@@ -49,7 +49,7 @@ constructor(spec: SchemaSpec<Nodes, Marks>) {
 
 要点：
 - **类型只实例化一次**（compile 阶段），因此全程可用 `===` 比较类型，无需按名字字符串比对。
-- **content 表达式 → ContentMatch 状态机**：像正则一样，`"paragraph+"`、`"(paragraph | heading) block*"` 描述子节点序列的合法性。相同表达式共享同一状态机（缓存）。
+- **content 表达式 → ContentMatch 状态机**：像正则一样，`"paragraph+"`、`"(paragraph | heading) block*"` 描述子节点序列的合法性。相同表达式共享同一状态机（缓存）。`ContentMatch.parse` 调用见 [schema.ts:609-610](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L609-L610)。
 - **markSet 语义**：`"_"` → null（允许所有）；空串或非内联节点 → `[]`（禁止）；否则解析成具体 MarkType 数组。见 [schema.ts:617-619](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/model/src/schema.ts#L617-L619)。
 
 ### 1.3 创建节点必经校验

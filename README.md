@@ -185,7 +185,7 @@ ProseMirror 采用严格自底向上、无循环依赖的四层分层设计：
 | 维度 | **ProseMirror** | **Slate** | **Quill** |
 |------|-----------------|-----------|-----------|
 | 文档模型 | 严格 Schema 约束的树；Node + Mark 分离 | JSON 树（无强制 schema，靠 normalize） | Delta（扁平 op 列表，非树） |
-| 数据结构 | 持久化不可变（结构共享） | 不可变（操作产生新对象） | 可变的线性 Delta |
+| 数据结构 | 持久化不可变（结构共享的树） | 不可变（操作产生新对象） | Delta 值对象（compose/transform 返回新 Delta，非结构共享树） |
 | 变更表示 | Step（原子/可逆/可映射/可序列化） | Operation（9 种基础 op） | Delta op（insert/retain/delete） |
 | 状态管理 | EditorState + Transaction 单向流 | React 受控组件 + Editor 对象 | 内部 model，命令式 API |
 | Schema | 一等公民，编译成内容状态机强校验 | 无内建 schema，靠 `normalizeNode` | 无 schema，靠 formats 白名单 |

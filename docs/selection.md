@@ -213,7 +213,7 @@ get selection(): Selection {
 ## 7. 可序列化与 Bookmark
 
 - 每种选区通过 `Selection.jsonID` 注册（如 [selection.ts:307](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L307)），支持 `toJSON`/`fromJSON`。
-- `SelectionBookmark`（[selection.ts:195-204](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L195-L204)）是不依赖具体文档的轻量选区表示，可先 `map` 再 `resolve`，主要供 history 存储/恢复旧选区使用（`TextBookmark`/`NodeBookmark`，[selection.ts:309-393](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L309-L393)）。
+- `SelectionBookmark`（[selection.ts:195-204](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L195-L204)）是不依赖具体文档的轻量选区表示，可先 `map` 再 `resolve`，主要供 history 存储/恢复旧选区使用（`TextBookmark` [selection.ts:309-318](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L309-L318)、`NodeBookmark` [selection.ts:382-393](file:///Users/tog/Desktop/code/gsb/gsb-731/xyj-731-4/xyj-731-4_Thor/state/src/selection.ts#L382-L393)）。
 
 ---
 
